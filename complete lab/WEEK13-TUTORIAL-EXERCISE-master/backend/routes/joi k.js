@@ -26,6 +26,11 @@ const usernameValidator = async (value, helpers) => {
     return value
 }
 //                          helper custom validation and sent custom messages
+const check_require = Joi.object({
+    title: Joi.string().required().messages({'any.required' : 'ต้องกรอก title'}),
+    description:Joi.number().required().messages({'any.required' : 'ต้องกรอก description','number.base' : 'เป็นเลขเท่านั้น'}),
+    due_date: Joi.date()
+})
 // const createSchema = Joi.object({
 //     title: Joi.string().required(),
 //     description: Joi.string().required(),
@@ -49,7 +54,33 @@ const usernameValidator = async (value, helpers) => {
 //     return res.status(400).json({ message: err.message });
 //   }
   
-  
+
+// joi custom error
+  const Joi = require('joi');
+
+const schema = Joi.object({
+  title: Joi.string().required().messages({
+    'any.required': 'ต้องกรอก title',
+  }),
+  description: Joi.string().required().messages({
+    'any.required': 'ต้องกรอก description',
+  }),
+  due_date: Joi.date().required().messages({
+    'any.required': 'ต้องกรอก due_date',
+  }),
+});
+
+const data = {
+  title: '',
+  description: 'Some description',
+  due_date: null,
+};
+
+const validation = schema.validate(data);
+console.log(validation.error.message);
+
+
+
 const signupSchema = Joi.object({
     email: Joi.string().required().email(),
     mobile: Joi.string().required().pattern(/0[0-9]{9}/),
