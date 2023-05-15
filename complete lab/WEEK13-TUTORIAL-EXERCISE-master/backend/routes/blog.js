@@ -76,7 +76,7 @@ const createblog = Joi.object({
 })
 
 
-
+//  form data
 // Create blog
 router.post("/blogs", upload.array("myImage", 5), async function (req, res, next) {
   try {
