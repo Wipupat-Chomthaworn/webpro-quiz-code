@@ -1,0 +1,1 @@
+valid(Joi.ref('password')) is used to specify that the confirmPassword field must match the password field. Joi.ref('password')

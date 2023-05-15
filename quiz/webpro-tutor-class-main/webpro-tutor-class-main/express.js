@@ -13,6 +13,7 @@ app.use(express.urlencoded({ extended: true }));
  * !!! ไม่ต้องใส่ app.listen() ในไฟล์นี้นะครับ มันจะไป listen ที่ไฟล์ server.js เองครับ !!!
  * !!! ห้ามลบ module.exports = app; ออกนะครับ  ไม่งั้นระบบตรวจไม่ได้ครับ !!!
 */
+
 const createDateSchema = Joi.object({
     start_date: Joi.date().required().max(Joi.ref('end_date')),
     end_date: Joi.date().required(),
@@ -21,16 +22,16 @@ const createDateSchema = Joi.object({
     //     is: Joi.date().required(),
     //     then: Joi.date().min(Joi.ref("start_date")).required()
     // }),
+  })
+  .custom((obj) => {
+    if (!(obj.end_date && obj.start_date)) {
+      return obj;
+    }
+    else if (obj.start_date && obj.end_date) {
+      return obj;
+    }
+    throw new Joi.ValidationError("you want to fill in start_date")
   });
-//   .custom((obj) => {
-    // if (!(obj.end_date && obj.start_date)) {
-    //   return obj;
-    // }
-    // else if (obj.start_date && obj.end_date) {
-    //   return obj;
-    // }
-    // throw new Joi.ValidationError("you want to fill in start_date")
-//   });
 app.get("/get_todo", async (req, res)=> {
     const [data] = await pool.query("select *, DATE_FORMAT(due_date, '%Y-%m-%d') from todo")
     return res.send(data)
