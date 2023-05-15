@@ -51,7 +51,7 @@ const check_require = Joi.object({
 //     await createSchema.validateAsync(req.body, { abortEarly: false });
 //   } catch (err) {
 //     console.log(err.message); // The error message from helpers.error()
-    return res.status(400).json({ message: err.message });
+//     return res.status(400).json({ message: err.message });
 //   }
   
 
